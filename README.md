@@ -3,34 +3,45 @@
 <br>
 <br>
 
-- Criar na raiz o arquivo .editorconfig, este arquivo define alguma configurações básicas do arquivo como espaçamento, nova linha ao final.
-  Colar este código dentro do arquivo, caso queira remover os comentários fique avontade:
+- Criar na raiz o arquivo
+```.editorconfig```
+Este arquivo define alguma configurações básicas do arquivo como espaçamento, nova linha ao final.
+Colar este código dentro do arquivo, caso queira remover os comentários fique avontade:
 
 ```
 # editorconfig.org
 
+(Quando você coloca root = true, está basicamente informando ao EditorConfig para parar de procurar por arquivos .editorconfig em diretórios pais
+/projeto/
+|-- .editorconfig
+|-- /subprojeto/
+    |-- .editorconfig
+    |-- arquivo.js
+
+Se você está editando arquivo.js e ambos os arquivos .editorconfig têm configurações, o EditorConfig combinará as configurações do arquivo .editorconfig do subprojeto com o do diretório projeto (porque o subprojeto é um subdiretório de projeto).
+
+Agora, se o arquivo .editorconfig no diretório subprojeto tiver root = true, então o EditorConfig usará apenas as configurações desse arquivo e ignorará completamente o arquivo .editorconfig no diretório projeto.
+)
 root = true
 
 # Será aplicado em todos os arquivos
-
 [*]
 
 # A indentação será com espaços
-
 indent_style = space
 
 # A indentação será com dois espaços
-
 indent_size = 2
+
+# A configuração end_of_line = lf refere-se ao tipo de caractere utilizado para marcar o final de uma linha em um arquivo de texto. Existem basicamente três tipos de sequências de caracteres de final de linha: LF (Line Feed): Representa a nova linha em sistemas Unix e Linux. É um único caractere (\n).
 end_of_line = lf
+
 charset = utf-8
 
 # Irá remover espaços em branco ao final da linha
-
 trim_trailing_whitespace = true
 
 # Irá inserir uma nova linha ao final
-
 insert_final_newline = true
 ```
 
@@ -44,7 +55,8 @@ insert_final_newline = true
 
 - Instalar o Eslint para modificar algumas configurações e deixar o código mais limpo, pois apenas as configurações do next que estão dentro do arquivo .eslintrc.json não são suficientes como por exemplo alertar sobre uma variável que não está sendo utilizada
 
-* npm init @eslint/config (Ao instalar ele fará algumas perguntas)
+(Ao instalar ele fará algumas perguntas)
+```npm init @eslint/config``` 
 
 -How would you like to use ESLint?
 To check syntax and find problems (Não marque para forçar o estilo de código pois iremos utilizar o prettier para isso)
@@ -91,7 +103,7 @@ OBS: Entre no site do Prettier para ver os comandos atualizados
 
 - Instalar o prettier em modo dev e configurar ele para que toda vez que salve seus arquivos eles sejam modificados de acordo com as regras do lint automaticamente
 
-* npm install --save-dev --save-exact prettier
+```npm install --save-dev --save-exact prettier```
 
 * Criar arquivo com este comando:
 
@@ -105,7 +117,8 @@ OBS: Entre no site do Prettier para ver os comandos atualizados
   }
 ```
 
-- Criar arquivo .prettierignore
+- Criar arquivo
+```.prettierignore```
   Colar dentro do arquivo:
 
 ```
@@ -117,22 +130,30 @@ coverage
 .next
 ```
 
-- Rodar comando npx prettier src/ --write
+- Rodar comando
+```npx prettier src/ --write```
   Dessa forma ele irá formatar todos os arquivos já existentes conforme as regras
 
-- Instalar o plugin Prettier - Code formatter
+- Instalar o plugin Prettier -
+```Code formatter```
 
-- Criar pasta na raiz do projeto .vscode
-- Criar arquivo settings.json dentro da pasta .vscode
-  Colar dentro do arquivo:
+- Criar pasta na raiz do projeto
+```.vscode```
+- Criar arquivo
+```settings.json```
+dentro da pasta .vscode
+
+Colar dentro do arquivo:
+```
   {
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
-
+```
 - Rodar comando para que dessa forma não haja conflito do prettier com o eslint:
-  npm install --save-dev eslint-config-prettier
-- Colar no arquivo .eslintrc.json:
+```npm install --save-dev eslint-config-prettier```
+- Colar no arquivo
+```.eslintrc.json```
 
 ```
   "extends": ["prettier"]
@@ -148,16 +169,18 @@ coverage
 
 O Husky é utilizado para rodar comandos/configurações junto com o git, por exemplo rodar o lint e o prettier sempre que você for dar push e caso tenha algum erro ele não permite o push, pode fazer a mesma coisa com testes enfim
 
-- npm install --save-dev husky lint-staged (O lint-staged é para rodar o lint apenas nos arquivos em staged do git e não rodar em todos arquivos do projeto)
-- npx husky-init
-- npm install
+(O lint-staged é para rodar o lint apenas nos arquivos em staged do git e não rodar em todos arquivos do projeto)
+```npm install --save-dev husky lint-staged```
+```npx husky-init```
+```npm install```
 
 - Abrir o arquivo pre-commit dentro da pasta .husky
-  Apagar npm test e colar: npx --no-install lint-staged
+  Apagar npm test e colar:
+```npx --no-install lint-staged```
 
-- Crie o arquivo na pasta raiz .lintstagedrc.js
+- Crie o arquivo na pasta raiz
+```.lintstagedrc.js```
   Cole:
-
 ```
   module.exports = {
   // Lint & Prettify TS and JS files
@@ -178,10 +201,10 @@ Pronto com essa configuração toda vez que você der um git add . e fizer um co
 <br>
 <br>
 
-- npm install --save-dev jest @types/jest jest-environment-jsdom
-- Criar arquivo na raiz jest.config.js
+```npm install --save-dev jest @types/jest jest-environment-jsdom```
+- Criar arquivo na raiz
+```jest.config.js```
   Colar:
-
 ```
   module.exports = {
   testEnvironment: 'jsdom',
@@ -200,13 +223,17 @@ Pronto com essa configuração toda vez que você der um git add . e fizer um co
   }
 ```
 
-- Colar no arquivo package.json
+- Colar no arquivo
+```package.json```
 
 ```
   "scripts": { "test": "jest --passWithNoTests --maxWorkers=50%", "test:watch": "jest --watch --maxWorkers=25%", "test:ci": "jest --runInBand" }
 ```
 
-- Criar a pasta .jest criar o arquivo setup.ts
+- Criar a pasta
+```.jest```
+Na pasta .jest criar o arquivo
+```setup.ts```
   <br>
   <br>
 
@@ -218,10 +245,10 @@ Pronto com essa configuração toda vez que você der um git add . e fizer um co
 OBS: Entrar no site para ver comando atualizados
 
 - Rodar comandos:
-  npm install --save-dev @testing-library/react @testing-library/jest-dom @testing-library/user-event
+```npm install --save-dev @testing-library/react @testing-library/jest-dom @testing-library/user-event```
 
 - Colar no arquivo setup.ts da pasta .jest:
-  import '@testing-library/jest-dom'
+```import '@testing-library/jest-dom'```
 
 - Colar no arquivo tsconfig.json no campo include o comando:
 
@@ -246,14 +273,21 @@ OBS: Entrar no site para ver comando atualizados
 
 - Deletar os arquivos do tailwind: tailwind.config.ts postcss.config.js globals.css remover import do globals no arquivo layout.ts
 - Rodar comando para desinstalar as libs:
-  npm uninstall --save autoprefixer postcss tailwindcss
+```npm uninstall --save autoprefixer postcss tailwindcss```
 
 - Vá no site do next, get starter, no menu esquerdo: Building Your Application - styling - CSS-in-JS siga as instruções:
-- Crie a pasta lib dentro da pasta src e crie o arquivo dentro da pasta lib: registry.tsx e cole todo o conteudo que está no site
-- Rodar o comando para instalar o styled-components:
-  npm install styled-components
+- Crie a pasta
+```lib```
+Dentro da pasta src e crie o arquivo dentro da pasta lib:
+```registry.tsx```
+e cole todo o conteudo que está no site
 
-- Seguindo o site cole a tag <StyledComponentsRegistry> no rootLayout
+- Rodar o comando para instalar o styled-components:
+```npm install styled-components```
+
+- Seguindo o site cole a tag
+```<StyledComponentsRegistry>```
+No rootLayout
 
 - Ao criar os arquivos styles coloque eles com o 'use client' pois eles são renderizados pelo lado do cliente já que o css-in-js utiliza o javascript para rodar o css. Exemplo:
 
@@ -296,9 +330,13 @@ Utilizo a importação com o S pois assim saberei que a tag que utilizei vem do 
 
 Para que o jest funcione nos styled components e assim garantindo também o css é necessáior instalar uma lib do jest para analisar o styled components
 
-- npm install --save-dev jest-styled-components
+```npm install --save-dev jest-styled-components```
 
-- Crie a pasta no src chamada types e crie o arquivo jest-styled-components.d.ts e cole dentro do arquivo:
+- Crie a pasta no src chamada
+```types```
+E crie o arquivo
+```jest-styled-components.d.ts```
+E cole dentro do arquivo:
 
 ```
 // Types provided from the official repo:
@@ -379,7 +417,7 @@ options?: StyledComponentsSerializerOptions
 <br>
 <br>
 
-- npx storybook@latest init
+```npx storybook@latest init```
 - Apagar a pasta stories (É uma pasta da documentação inicial do storybook, caso queira ver vá no package.json e veja o comando para inicializar o storybook que irá abrir em uma porta e veja a documentação que está nesta pasta)
 - Va no arquivo main da pasta .storybook e cole:
 
@@ -405,14 +443,18 @@ return config
 export default config
 ```
 
-- Na raiz crie o arquivo .eslintignore e cole:
+- Na raiz crie o arquivo
+```.eslintignore```
+E cole:
 
 ```
   !.storybook
   !.jest
 ```
 
-- Dentro da pasta components/Main crie o arquivo stories.tsx e comece a escrever os dados do componente, exemplo:
+- Dentro da pasta components/Main crie o arquivo
+```stories.tsx```
+E comece a escrever os dados do componente, exemplo:
 
 ```
   import { Meta, StoryObj } from '@storybook/react'
